@@ -1,17 +1,18 @@
 const faunadb = require("faunadb");
 const q = faunadb.query;
 
-const client = new faunadb.Client({
-  secret: process.env.FAUNADB_ADMIN_SECRET,
-  domain: "db.eu.fauna.com",
-});
-
 exports.handler = async (event) => {
   try {
-    const id = JSON.parse(event.body);
+    const client = new faunadb.Client({
+      secret: process.env.FAUNADB_ADMIN_SECRET,
+      domain: "db.eu.fauna.com",
+    });
 
     const result = await client.query(
-      q.Delete(q.Ref(q.Collection("todos"), id))
+      q.Map(
+        q.Paginate(q.Documents(q.Collection("todos"))),
+        q.Lambda((x) => q.Get(x))
+      )
     );
 
     return {

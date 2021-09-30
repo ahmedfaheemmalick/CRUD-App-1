@@ -3,19 +3,19 @@ const q = faunadb.query;
 
 const client = new faunadb.Client({
   secret: process.env.FAUNADB_ADMIN_SECRET,
+  domain: "db.eu.fauna.com",
 });
 
 exports.handler = async (event) => {
   try {
     const { id, newTodo } = JSON.parse(event.body);
+    console.log(id, newTodo)
 
     const result = await client.query(
       q.Update(q.Ref(q.Collection("todos"), id), {
-        newTodo,
+        data: { todoName: newTodo },
       })
     );
-
-    console.log("update todo", result);
 
     return {
       statusCode: 200,
