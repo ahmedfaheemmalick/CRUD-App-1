@@ -9,7 +9,6 @@ const client = new faunadb.Client({
 exports.handler = async (event) => {
   try {
     const { id, newTodo } = JSON.parse(event.body);
-    console.log(id, newTodo)
 
     const result = await client.query(
       q.Update(q.Ref(q.Collection("todos"), id), {
