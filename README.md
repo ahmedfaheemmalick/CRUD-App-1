@@ -6,6 +6,7 @@
 
 This is the code repo of Crud App. There I used:
   * [React](https://reactjs.org)
+  * [Fauna DB](https://fauna.com/)
 
 ## To use this project
   1. Clone this Project
